@@ -1,0 +1,6 @@
+framework module Pods_horizontalcards {
+  umbrella header "Pods-horizontalcards-umbrella.h"
+
+  export *
+  module * { export * }
+}
