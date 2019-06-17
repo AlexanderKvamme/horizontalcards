@@ -14,12 +14,12 @@ final class CardController: UIViewController {
     
     // MARK: - Properties
     
-    static var horizontalInsets: CGFloat = 16
+    static var horizontalInsets: CGFloat = 32
 
     private var data = ["card 0", "card 1", "card 2", "card 3", "card 4", "card 5", "card 6", "card 7", "card 8", "card 9"]
     private var collectionView: UICollectionView!
     private let layout = UICollectionViewFlowLayout()
-    private let pageControl = CHIPageControlAleppo(frame: CGRect(x: 0, y:0, width: 100, height: 20))
+    private let pageControl = CHIPageControlAleppo(frame: CGRect(x: 0, y: 0, width: 100, height: 20))
     
     private var currentCardIndex = 0
     
@@ -105,6 +105,23 @@ extension CardController: UICollectionViewDataSource, UICollectionViewDelegateFl
         // update pageControl
         let newPageIndex = getPageNumber(for: Int(newCardIndex), currentCardNumber: currentCardIndex)
         pageControl.set(progress: newPageIndex, animated: true)
+
+        // fade out previous cell
+        let oldCellIndex = IndexPath(item: Int(currentCardIndex), section: 0)
+        if let oldCell = collectionView.cellForItem(at: oldCellIndex) as? CardCell {
+            UIView.animate(withDuration: 0.5) {
+                oldCell.alpha = 0.5
+            }
+        }
+        
+        // fade in new cell
+        let newCellIndex = IndexPath(item: Int(number), section: 0)
+        if let newCell = collectionView.cellForItem(at: newCellIndex) as? CardCell {
+            UIView.animate(withDuration: 0.5) {
+                newCell.alpha = 1
+            }
+        }
+        
         currentCardIndex = Int(newCardIndex)
     }
     
