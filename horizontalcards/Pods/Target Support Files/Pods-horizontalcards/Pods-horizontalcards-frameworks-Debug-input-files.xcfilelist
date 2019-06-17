@@ -1,2 +1,3 @@
 ${PODS_ROOT}/Target Support Files/Pods-horizontalcards/Pods-horizontalcards-frameworks.sh
+${BUILT_PRODUCTS_DIR}/CHIPageControl/CHIPageControl.framework
 ${BUILT_PRODUCTS_DIR}/SnapKit/SnapKit.framework

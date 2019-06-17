@@ -8,6 +8,6 @@ target 'horizontalcards' do
   # Pods for horizontalcards
 
   pod 'SnapKit'
-
+  pod 'CHIPageControl/Aleppo'
 
 end

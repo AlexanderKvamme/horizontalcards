@@ -8,7 +8,7 @@
 
 import Foundation
 import UIKit
-
+import CHIPageControl
 
 final class CardController: UIViewController {
     
@@ -16,10 +16,12 @@ final class CardController: UIViewController {
     
     static var horizontalInsets: CGFloat = 16
 
-    private var data = ["card one", "card two", "card three", "card four", "card 5", "card 6", "card 7", "card 8", "card 9", "card 10"]
+    private var data = ["card 0", "card 1", "card 2", "card 3", "card 4", "card 5", "card 6", "card 7", "card 8", "card 9"]
     private var collectionView: UICollectionView!
     private let layout = UICollectionViewFlowLayout()
-    private let pageControl = UIPageControl()
+    private let pageControl = CHIPageControlAleppo(frame: CGRect(x: 0, y:0, width: 100, height: 20))
+    
+    private var currentCardIndex = 0
     
     // MARK: - Initializers
     
@@ -50,11 +52,12 @@ final class CardController: UIViewController {
         collectionView.decelerationRate = .fast
         collectionView.contentInset = UIEdgeInsets(top: 0, left: CardController.horizontalInsets, bottom: 0, right: -CardController.horizontalInsets)
         
-        pageControl.backgroundColor = .green
-        pageControl.currentPage = 2
-        pageControl.currentPageIndicatorTintColor = .red
-        pageControl.pageIndicatorTintColor = .blue
+        
         pageControl.numberOfPages = 4
+        pageControl.radius = 4
+        pageControl.tintColor = UIColor.solarstein.mariner
+        pageControl.currentPageTintColor = UIColor.solarstein.sapphire
+        pageControl.padding = 6
     }
     
     private func addSubviewsAndConstraints() {
@@ -86,32 +89,79 @@ extension CardController: UICollectionViewDataSource, UICollectionViewDelegateFl
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        print("cell for item")
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: CardCell.identifier, for: indexPath) as! CardCell
         cell.update(with: data[indexPath.row])
         return cell
     }
     
     func scrollViewWillEndDragging(_ scrollView: UIScrollView, withVelocity velocity: CGPoint, targetContentOffset: UnsafeMutablePointer<CGPoint>) {
-        print()
-        print("will end and go to ", targetContentOffset.pointee)
         let pointee = targetContentOffset.pointee
         let cardSize = CardCell.estimatedItemSize
-        print("card: ", cardSize.width)
         let number = pointee.x / cardSize.width
-        print("numer: ", number)
-        let roundedNumber = number.rounded()
-        print("rounded: ", roundedNumber)
-        
-        let accumulatedSpacing = (roundedNumber-1)*CardController.horizontalInsets
-        print("accumulatedSpacing: ", accumulatedSpacing)
-        let endPosition = roundedNumber*cardSize.width + accumulatedSpacing
-        print("would scroll to: ", endPosition)
+        let newCardIndex = number.rounded()
+        print("is this the correct card index? - ", newCardIndex)
+        let accumulatedSpacing = (newCardIndex-1)*CardController.horizontalInsets
+        let endPosition = newCardIndex*cardSize.width + accumulatedSpacing
         targetContentOffset.pointee.x = endPosition
+    
+        // NEW
+        let newPageIndex = getPageIndexToDisplay(for: Int(newCardIndex), currentCardNumber: currentCardIndex)
+        pageControl.set(progress: newPageIndex, animated: true)
+        currentCardIndex = Int(newCardIndex)
+        print("setting current cardindex to ", currentCardIndex)
+        let offset = collectionView.contentOffset
+        print("offset: ", offset)
         
-        print("page number: ", Int(roundedNumber))
-        print("velocity: ", velocity)
-        pageControl.currentPage = Int(roundedNumber)
+    }
+    
+    // MARK: Helpers
+    
+    func getPageIndexToDisplay(for newCardNumberIndex: Int, currentCardNumber: Int) -> Int {
+        
+        // OLD
+        
+//        let number = offset.x / CardCell.estimatedItemSize.width
+//        let roundedNumber = number.rounded()
+//        print("got pager index: ", roundedNumber)
+//        return Int(roundedNumber)
+        
+        // NEW
+
+        let attemptedNewPage = min(newCardNumberIndex, pageControl.numberOfPages)
+        
+        let swipingForward = newCardNumberIndex > currentCardIndex
+        let swipingBackward = newCardNumberIndex < currentCardNumber
+        let swipingToSame = newCardNumberIndex == currentCardIndex
+        
+        print()
+        print("newCardIndex: ", newCardNumberIndex)
+        print("currentCardIndex: ", currentCardIndex)
+        
+        print("shazam forwards", swipingForward)
+        
+        if swipingToSame {
+            return pageControl.currentPage
+        }
+        
+        if swipingForward {
+            if attemptedNewPage >= pageControl.numberOfPages-1 {
+                if newCardNumberIndex == data.count-1 {
+                    return pageControl.numberOfPages-1
+                } else {
+                    return pageControl.numberOfPages-2
+                }
+            }
+        } else if swipingBackward {
+            if newCardNumberIndex == 0 {
+                print("swiping to first")
+                return 0
+            } else {
+                print("bam returning ", min(newCardNumberIndex, 1))
+                return min(newCardNumberIndex, 1)
+            }
+        }
+        
+        return newCardNumberIndex
     }
 }
 
