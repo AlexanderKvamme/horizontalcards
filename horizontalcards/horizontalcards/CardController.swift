@@ -9,7 +9,6 @@
 import Foundation
 import UIKit
 
-fileprivate var horizontalCellSpacing: CGFloat = 16
 
 final class CardController: UIViewController {
     
@@ -17,9 +16,10 @@ final class CardController: UIViewController {
     
     static var horizontalInsets: CGFloat = 16
 
-    var data = ["card one", "card two", "card three", "card four", "card 5", "card 6", "card 7", "card 8", "card 9", "card 10"]
-    var collectionView: UICollectionView!
-    let layout = UICollectionViewFlowLayout()
+    private var data = ["card one", "card two", "card three", "card four", "card 5", "card 6", "card 7", "card 8", "card 9", "card 10"]
+    private var collectionView: UICollectionView!
+    private let layout = UICollectionViewFlowLayout()
+    private let pageControl = UIPageControl()
     
     // MARK: - Initializers
     
@@ -47,7 +47,14 @@ final class CardController: UIViewController {
         collectionView.delegate = self
         collectionView.dataSource = self
         collectionView.backgroundColor = UIColor.clear
+        collectionView.decelerationRate = .fast
         collectionView.contentInset = UIEdgeInsets(top: 0, left: CardController.horizontalInsets, bottom: 0, right: -CardController.horizontalInsets)
+        
+        pageControl.backgroundColor = .green
+        pageControl.currentPage = 2
+        pageControl.currentPageIndicatorTintColor = .red
+        pageControl.pageIndicatorTintColor = .blue
+        pageControl.numberOfPages = 4
     }
     
     private func addSubviewsAndConstraints() {
@@ -56,25 +63,14 @@ final class CardController: UIViewController {
             make.top.left.equalToSuperview()
             make.right.bottom.equalToSuperview()
         }
+        
+        view.addSubview(pageControl)
+        pageControl.snp.makeConstraints { (make) in
+            make.top.equalTo(collectionView.snp.bottom)
+            make.left.right.equalToSuperview()
+            make.height.equalTo(40)
+        }
     }
-    
-//    override func viewDidLoad() {
-//        print("contentSize: ", collectionView.contentSize)
-//        let neededSize = CGFloat(data.count)*CardCell.estimatedItemSize.width + CGFloat(data.count-1)*CardController.horizontalInsets
-//        print("needed contentSize: ", neededSize)
-//        collectionView.contentSize.width = neededSize
-//        collectionView.contentSize.width = 5000
-//    }
-    
-//    override func viewWillLayoutSubviews() {
-//        collectionView.contentSize = CGSize(width: 5000, height: 5000)
-//    }
-    
-//    override func viewDidLoad() {
-//        if let flowLayout = collectionView.collectionViewLayout as? UICollectionViewFlowLayout {
-//            flowLayout.sectionInset.right = 16*CGFloat(data.count-1)
-//        }
-//    }
 }
 
 extension CardController: UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
@@ -107,11 +103,15 @@ extension CardController: UICollectionViewDataSource, UICollectionViewDelegateFl
         let roundedNumber = number.rounded()
         print("rounded: ", roundedNumber)
         
-        let accumulatedSpacing = (roundedNumber-1)*horizontalCellSpacing
+        let accumulatedSpacing = (roundedNumber-1)*CardController.horizontalInsets
         print("accumulatedSpacing: ", accumulatedSpacing)
         let endPosition = roundedNumber*cardSize.width + accumulatedSpacing
         print("would scroll to: ", endPosition)
         targetContentOffset.pointee.x = endPosition
+        
+        print("page number: ", Int(roundedNumber))
+        print("velocity: ", velocity)
+        pageControl.currentPage = Int(roundedNumber)
     }
 }
 
@@ -121,7 +121,7 @@ final class CardCell: UICollectionViewCell {
     // MARK: - Properties
 
     static let identifier = "Card cell"
-    static let estimatedItemSize = CGSize(width: UIScreen.main.bounds.width-CardController.horizontalInsets*2, height: 200)
+    static let estimatedItemSize = CGSize(width: UIScreen.main.bounds.width-CardController.horizontalInsets*2, height: 100)
     
     private let label = UILabel()
     
