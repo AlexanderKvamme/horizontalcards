@@ -99,7 +99,6 @@ extension CardController: UICollectionViewDataSource, UICollectionViewDelegateFl
         let cardSize = CardCell.estimatedItemSize
         let number = pointee.x / cardSize.width
         let newCardIndex = number.rounded()
-        print("is this the correct card index? - ", newCardIndex)
         let accumulatedSpacing = (newCardIndex-1)*CardController.horizontalInsets
         let endPosition = newCardIndex*cardSize.width + accumulatedSpacing
         targetContentOffset.pointee.x = endPosition
@@ -108,40 +107,14 @@ extension CardController: UICollectionViewDataSource, UICollectionViewDelegateFl
         let newPageIndex = getPageIndexToDisplay(for: Int(newCardIndex), currentCardNumber: currentCardIndex)
         pageControl.set(progress: newPageIndex, animated: true)
         currentCardIndex = Int(newCardIndex)
-        print("setting current cardindex to ", currentCardIndex)
-        let offset = collectionView.contentOffset
-        print("offset: ", offset)
-        
     }
     
     // MARK: Helpers
     
     func getPageIndexToDisplay(for newCardNumberIndex: Int, currentCardNumber: Int) -> Int {
-        
-        // OLD
-        
-//        let number = offset.x / CardCell.estimatedItemSize.width
-//        let roundedNumber = number.rounded()
-//        print("got pager index: ", roundedNumber)
-//        return Int(roundedNumber)
-        
-        // NEW
-
         let attemptedNewPage = min(newCardNumberIndex, pageControl.numberOfPages)
-        
         let swipingForward = newCardNumberIndex > currentCardIndex
         let swipingBackward = newCardNumberIndex < currentCardNumber
-        let swipingToSame = newCardNumberIndex == currentCardIndex
-        
-        print()
-        print("newCardIndex: ", newCardNumberIndex)
-        print("currentCardIndex: ", currentCardIndex)
-        
-        print("shazam forwards", swipingForward)
-        
-        if swipingToSame {
-            return pageControl.currentPage
-        }
         
         if swipingForward {
             if attemptedNewPage >= pageControl.numberOfPages-1 {
@@ -150,18 +123,19 @@ extension CardController: UICollectionViewDataSource, UICollectionViewDelegateFl
                 } else {
                     return pageControl.numberOfPages-2
                 }
+            } else {
+                return attemptedNewPage
             }
         } else if swipingBackward {
             if newCardNumberIndex == 0 {
-                print("swiping to first")
                 return 0
             } else {
-                print("bam returning ", min(newCardNumberIndex, 1))
-                return min(newCardNumberIndex, 1)
+                let indexOneBackward = min(newCardNumberIndex, pageControl.currentPage-1)
+                return min(newCardNumberIndex, max(indexOneBackward, 1))
             }
+        } else {
+            return pageControl.currentPage
         }
-        
-        return newCardNumberIndex
     }
 }
 
