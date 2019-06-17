@@ -36,7 +36,7 @@ class ViewController: UIViewController {
         addChild(cardController)
         view.addSubview(cardController.view)
         cardController.view.snp.makeConstraints { (make) in
-            make.top.equalToSuperview().offset(40)
+            make.top.equalToSuperview().offset(100)
             make.left.right.equalToSuperview()
             make.height.equalTo(CardCell.estimatedItemSize)
         }

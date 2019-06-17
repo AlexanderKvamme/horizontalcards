@@ -15,6 +15,7 @@ final class CardController: UIViewController {
     // MARK: - Properties
     
     static var horizontalInsets: CGFloat = 32
+    static var horizontalInterItemSpacing: CGFloat = 16
 
     private var data = ["card 0", "card 1", "card 2", "card 3", "card 4", "card 5", "card 6", "card 7", "card 8", "card 9"]
     private var collectionView: UICollectionView!
@@ -28,7 +29,7 @@ final class CardController: UIViewController {
     init() {
         layout.scrollDirection = .horizontal
         layout.estimatedItemSize = CardCell.estimatedItemSize
-        layout.minimumLineSpacing = 16
+        layout.minimumLineSpacing = CardController.horizontalInterItemSpacing
         
         collectionView = UICollectionView(frame: .zero, collectionViewLayout: layout)
         
@@ -50,7 +51,7 @@ final class CardController: UIViewController {
         collectionView.dataSource = self
         collectionView.backgroundColor = UIColor.clear
         collectionView.decelerationRate = .fast
-        collectionView.contentInset = UIEdgeInsets(top: 0, left: CardController.horizontalInsets, bottom: 0, right: -CardController.horizontalInsets)
+        collectionView.contentInset = UIEdgeInsets(top: 0, left: CardController.horizontalInsets, bottom: 0, right: CardController.horizontalInsets)
         collectionView.showsHorizontalScrollIndicator = false
         
         pageControl.numberOfPages = 4
@@ -90,15 +91,20 @@ extension CardController: UICollectionViewDataSource, UICollectionViewDelegateFl
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: CardCell.identifier, for: indexPath) as! CardCell
         cell.update(with: data[indexPath.row])
+        cell.alpha = 0.5
+        
+        if indexPath.row == 0 {
+            cell.setFaded(false)
+        }
+        
         return cell
     }
     
     func scrollViewWillEndDragging(_ scrollView: UIScrollView, withVelocity velocity: CGPoint, targetContentOffset: UnsafeMutablePointer<CGPoint>) {
         let pointee = targetContentOffset.pointee
         let cardSize = CardCell.estimatedItemSize
-        let number = pointee.x / cardSize.width
-        let newCardIndex = number.rounded()
-        let accumulatedSpacing = (newCardIndex-1)*CardController.horizontalInsets
+        let newCardIndex = (pointee.x / cardSize.width).rounded()
+        let accumulatedSpacing = (newCardIndex-1)*CardController.horizontalInterItemSpacing - CardController.horizontalInsets/2
         let endPosition = newCardIndex*cardSize.width + accumulatedSpacing
         targetContentOffset.pointee.x = endPosition
     
@@ -106,19 +112,23 @@ extension CardController: UICollectionViewDataSource, UICollectionViewDelegateFl
         let newPageIndex = getPageNumber(for: Int(newCardIndex), currentCardNumber: currentCardIndex)
         pageControl.set(progress: newPageIndex, animated: true)
 
-        // fade out previous cell
+        // animate card fade-in/outslac
         let oldCellIndex = IndexPath(item: Int(currentCardIndex), section: 0)
-        if let oldCell = collectionView.cellForItem(at: oldCellIndex) as? CardCell {
-            UIView.animate(withDuration: 0.5) {
-                oldCell.alpha = 0.5
-            }
-        }
+        let newCellIndex = IndexPath(item: Int(newCardIndex), section: 0)
         
-        // fade in new cell
-        let newCellIndex = IndexPath(item: Int(number), section: 0)
-        if let newCell = collectionView.cellForItem(at: newCellIndex) as? CardCell {
-            UIView.animate(withDuration: 0.5) {
-                newCell.alpha = 1
+        if newCellIndex != oldCellIndex {
+            // fade out previous cell
+            if let oldCell = collectionView.cellForItem(at: oldCellIndex) as? CardCell {
+                UIView.animate(withDuration: 0.5) {
+                    oldCell.setFaded(true)
+                }
+            }
+            
+            // fade in new cell
+            if let newCell = collectionView.cellForItem(at: newCellIndex) as? CardCell {
+                UIView.animate(withDuration: 0.5) {
+                    newCell.setFaded(false)
+                }
             }
         }
         
@@ -186,6 +196,8 @@ final class CardCell: UICollectionViewCell {
         }
         
         layer.cornerRadius = 20
+        
+        alpha = 0.5
     }
     
     required init?(coder aDecoder: NSCoder) {
@@ -196,6 +208,10 @@ final class CardCell: UICollectionViewCell {
     
     func update(with data: String) {
         label.text = data
+    }
+    
+    func setFaded(_ b: Bool) {
+        alpha = b ? 0.5 : 1
     }
 }
 
