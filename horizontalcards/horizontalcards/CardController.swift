@@ -15,6 +15,8 @@ final class CardController: UIViewController {
     
     // MARK: - Properties
     
+    static var horizontalInsets: CGFloat = 16
+
     var data = ["card one", "card two", "card three", "card four", "card 5", "card 6", "card 7", "card 8", "card 9", "card 10"]
     var collectionView: UICollectionView!
     let layout = UICollectionViewFlowLayout()
@@ -44,16 +46,35 @@ final class CardController: UIViewController {
         collectionView.register(CardCell.self, forCellWithReuseIdentifier: CardCell.identifier)
         collectionView.delegate = self
         collectionView.dataSource = self
-        collectionView.backgroundColor = .red
+        collectionView.backgroundColor = UIColor.clear
+        collectionView.contentInset = UIEdgeInsets(top: 0, left: CardController.horizontalInsets, bottom: 0, right: -CardController.horizontalInsets)
     }
     
     private func addSubviewsAndConstraints() {
         view.addSubview(collectionView)
         collectionView.snp.makeConstraints { (make) in
-            make.top.left.equalToSuperview().offset(8)
-            make.right.bottom.equalToSuperview().offset(-8)
+            make.top.left.equalToSuperview()
+            make.right.bottom.equalToSuperview()
         }
     }
+    
+//    override func viewDidLoad() {
+//        print("contentSize: ", collectionView.contentSize)
+//        let neededSize = CGFloat(data.count)*CardCell.estimatedItemSize.width + CGFloat(data.count-1)*CardController.horizontalInsets
+//        print("needed contentSize: ", neededSize)
+//        collectionView.contentSize.width = neededSize
+//        collectionView.contentSize.width = 5000
+//    }
+    
+//    override func viewWillLayoutSubviews() {
+//        collectionView.contentSize = CGSize(width: 5000, height: 5000)
+//    }
+    
+//    override func viewDidLoad() {
+//        if let flowLayout = collectionView.collectionViewLayout as? UICollectionViewFlowLayout {
+//            flowLayout.sectionInset.right = 16*CGFloat(data.count-1)
+//        }
+//    }
 }
 
 extension CardController: UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
@@ -64,12 +85,14 @@ extension CardController: UICollectionViewDataSource, UICollectionViewDelegateFl
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         print("data count: ", data.count)
+        collectionView.contentInset.right = CGFloat(data.count-1) * 8
         return data.count
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         print("cell for item")
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: CardCell.identifier, for: indexPath) as! CardCell
+        cell.update(with: data[indexPath.row])
         return cell
     }
     
@@ -84,7 +107,7 @@ extension CardController: UICollectionViewDataSource, UICollectionViewDelegateFl
         let roundedNumber = number.rounded()
         print("rounded: ", roundedNumber)
         
-        let accumulatedSpacing = roundedNumber*horizontalCellSpacing
+        let accumulatedSpacing = (roundedNumber-1)*horizontalCellSpacing
         print("accumulatedSpacing: ", accumulatedSpacing)
         let endPosition = roundedNumber*cardSize.width + accumulatedSpacing
         print("would scroll to: ", endPosition)
@@ -93,24 +116,12 @@ extension CardController: UICollectionViewDataSource, UICollectionViewDelegateFl
 }
 
 
-
-
-
-
-
-
-
-
-
-
-
-
 final class CardCell: UICollectionViewCell {
     
     // MARK: - Properties
 
     static let identifier = "Card cell"
-    static let estimatedItemSize = CGSize(width: 300, height: 200)
+    static let estimatedItemSize = CGSize(width: UIScreen.main.bounds.width-CardController.horizontalInsets*2, height: 200)
     
     private let label = UILabel()
     
@@ -119,14 +130,15 @@ final class CardCell: UICollectionViewCell {
     override init(frame: CGRect) {
         super.init(frame: .zero)
         
-        print("init cell")
-        
         label.text = "test"
-        backgroundColor = .green
+        label.textColor = UIColor.solarstein.seashell
+        
+        backgroundColor = UIColor.solarstein.sapphire
         
         contentView.addSubview(label)
         label.snp.makeConstraints { (make) in
-            make.edges.equalToSuperview()
+            make.top.left.equalToSuperview().offset(16)
+            make.right.equalToSuperview()
         }
         
         contentView.snp.makeConstraints { (make) in
@@ -134,16 +146,17 @@ final class CardCell: UICollectionViewCell {
             make.edges.equalToSuperview()
         }
         
-        layer.cornerRadius = 10
+        layer.cornerRadius = 20
     }
     
     required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
     
-    // MARK: - Life Cycle
+    // MARK: Methods
     
-    // MARK: - Methods
-
+    func update(with data: String) {
+        label.text = data
+    }
 }
 

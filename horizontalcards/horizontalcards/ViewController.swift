@@ -21,6 +21,8 @@ class ViewController: UIViewController {
     init() {
         super.init(nibName: nil, bundle: nil)
         
+        view.backgroundColor = UIColor.solarstein.seashell
+        
         addSubviewsAndConstraints()
     }
     
@@ -34,10 +36,10 @@ class ViewController: UIViewController {
         addChild(cardController)
         view.addSubview(cardController.view)
         cardController.view.snp.makeConstraints { (make) in
-            make.top.left.right.equalToSuperview()
-            make.height.equalTo(300)
+            make.top.equalToSuperview().offset(40)
+            make.left.right.equalToSuperview()
+            make.height.equalTo(CardCell.estimatedItemSize)
         }
-        cardController.view.backgroundColor = .blue
     }
 }
 
