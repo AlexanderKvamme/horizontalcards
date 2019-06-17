@@ -9,25 +9,23 @@
 import Foundation
 import UIKit
 
+fileprivate var horizontalCellSpacing: CGFloat = 16
 
 final class CardController: UIViewController {
     
     // MARK: - Properties
     
-    static var layout: UICollectionViewLayout {
-        let l = UICollectionViewLayout()
-        return l
-    }
-    
-    var data = ["card one", "card two", "card three"]
+    var data = ["card one", "card two", "card three", "card four", "card 5", "card 6", "card 7", "card 8", "card 9", "card 10"]
     var collectionView: UICollectionView!
+    let layout = UICollectionViewFlowLayout()
     
     // MARK: - Initializers
     
     init() {
-        let layout = UICollectionViewFlowLayout()
         layout.scrollDirection = .horizontal
         layout.estimatedItemSize = CardCell.estimatedItemSize
+        layout.minimumLineSpacing = 16
+        
         collectionView = UICollectionView(frame: .zero, collectionViewLayout: layout)
         
         super.init(nibName: nil, bundle: nil)
@@ -39,8 +37,6 @@ final class CardController: UIViewController {
     required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
-    
-    // MARK: - Life Cycle
     
     // MARK: - Methods
     
@@ -60,7 +56,12 @@ final class CardController: UIViewController {
     }
 }
 
-extension CardController: UICollectionViewDataSource, UICollectionViewDelegate {
+extension CardController: UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
+    
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
+        return CardCell.estimatedItemSize
+    }
+    
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         print("data count: ", data.count)
         return data.count
@@ -71,18 +72,45 @@ extension CardController: UICollectionViewDataSource, UICollectionViewDelegate {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: CardCell.identifier, for: indexPath) as! CardCell
         return cell
     }
+    
+    func scrollViewWillEndDragging(_ scrollView: UIScrollView, withVelocity velocity: CGPoint, targetContentOffset: UnsafeMutablePointer<CGPoint>) {
+        print()
+        print("will end and go to ", targetContentOffset.pointee)
+        let pointee = targetContentOffset.pointee
+        let cardSize = CardCell.estimatedItemSize
+        print("card: ", cardSize.width)
+        let number = pointee.x / cardSize.width
+        print("numer: ", number)
+        let roundedNumber = number.rounded()
+        print("rounded: ", roundedNumber)
+        
+        let accumulatedSpacing = roundedNumber*horizontalCellSpacing
+        print("accumulatedSpacing: ", accumulatedSpacing)
+        let endPosition = roundedNumber*cardSize.width + accumulatedSpacing
+        print("would scroll to: ", endPosition)
+        targetContentOffset.pointee.x = endPosition
+    }
 }
 
-extension CardController: UICollectionViewDelegateFlowLayout {
-    
-}
+
+
+
+
+
+
+
+
+
+
+
+
 
 final class CardCell: UICollectionViewCell {
     
     // MARK: - Properties
 
     static let identifier = "Card cell"
-    static let estimatedItemSize = CGSize(width: 400, height: 200)
+    static let estimatedItemSize = CGSize(width: 300, height: 200)
     
     private let label = UILabel()
     
@@ -103,7 +131,10 @@ final class CardCell: UICollectionViewCell {
         
         contentView.snp.makeConstraints { (make) in
             make.size.equalTo(CardCell.estimatedItemSize)
+            make.edges.equalToSuperview()
         }
+        
+        layer.cornerRadius = 10
     }
     
     required init?(coder aDecoder: NSCoder) {
@@ -113,6 +144,6 @@ final class CardCell: UICollectionViewCell {
     // MARK: - Life Cycle
     
     // MARK: - Methods
-    
+
 }
 
