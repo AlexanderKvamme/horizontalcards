@@ -51,7 +51,7 @@ final class CardController: UIViewController {
         collectionView.backgroundColor = UIColor.clear
         collectionView.decelerationRate = .fast
         collectionView.contentInset = UIEdgeInsets(top: 0, left: CardController.horizontalInsets, bottom: 0, right: -CardController.horizontalInsets)
-        
+        collectionView.showsHorizontalScrollIndicator = false
         
         pageControl.numberOfPages = 4
         pageControl.radius = 4
@@ -83,7 +83,6 @@ extension CardController: UICollectionViewDataSource, UICollectionViewDelegateFl
     }
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        print("data count: ", data.count)
         collectionView.contentInset.right = CGFloat(data.count-1) * 8
         return data.count
     }
@@ -103,35 +102,34 @@ extension CardController: UICollectionViewDataSource, UICollectionViewDelegateFl
         let endPosition = newCardIndex*cardSize.width + accumulatedSpacing
         targetContentOffset.pointee.x = endPosition
     
-        // NEW
-        let newPageIndex = getPageIndexToDisplay(for: Int(newCardIndex), currentCardNumber: currentCardIndex)
+        // update pageControl
+        let newPageIndex = getPageNumber(for: Int(newCardIndex), currentCardNumber: currentCardIndex)
         pageControl.set(progress: newPageIndex, animated: true)
         currentCardIndex = Int(newCardIndex)
     }
     
     // MARK: Helpers
     
-    func getPageIndexToDisplay(for newCardNumberIndex: Int, currentCardNumber: Int) -> Int {
-        let attemptedNewPage = min(newCardNumberIndex, pageControl.numberOfPages)
+    func getPageNumber(for newCardNumberIndex: Int, currentCardNumber: Int) -> Int {
         let swipingForward = newCardNumberIndex > currentCardIndex
         let swipingBackward = newCardNumberIndex < currentCardNumber
         
         if swipingForward {
-            if attemptedNewPage >= pageControl.numberOfPages-1 {
-                if newCardNumberIndex == data.count-1 {
-                    return pageControl.numberOfPages-1
-                } else {
-                    return pageControl.numberOfPages-2
-                }
+            let targetIndexIsLast = newCardNumberIndex == data.count - 1
+            
+            if targetIndexIsLast {
+                return pageControl.numberOfPages-1
             } else {
-                return attemptedNewPage
+                return min(pageControl.currentPage+1, 2)
             }
         } else if swipingBackward {
-            if newCardNumberIndex == 0 {
+            let targetIndexIsFirst = newCardNumberIndex == 0
+            
+            if targetIndexIsFirst {
                 return 0
             } else {
-                let indexOneBackward = min(newCardNumberIndex, pageControl.currentPage-1)
-                return min(newCardNumberIndex, max(indexOneBackward, 1))
+                let oneIndexBack = min(newCardNumberIndex, pageControl.currentPage-1)
+                return min(newCardNumberIndex, max(oneIndexBack, 1))
             }
         } else {
             return pageControl.currentPage
