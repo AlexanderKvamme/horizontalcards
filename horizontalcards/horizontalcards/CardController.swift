@@ -53,6 +53,7 @@ final class CardController: UIViewController {
         collectionView.decelerationRate = .fast
         collectionView.contentInset = UIEdgeInsets(top: 0, left: CardController.horizontalInsets, bottom: 0, right: CardController.horizontalInsets)
         collectionView.showsHorizontalScrollIndicator = false
+        collectionView.delaysContentTouches = false
         
         pageControl.numberOfPages = 4
         pageControl.radius = 4
@@ -104,29 +105,29 @@ extension CardController: UICollectionViewDataSource, UICollectionViewDelegateFl
         let pointee = targetContentOffset.pointee
         let cardSize = CardCell.estimatedItemSize
         let newCardIndex = (pointee.x / cardSize.width).rounded()
+        let newPageIndex = getPageNumber(for: Int(newCardIndex), currentCardNumber: currentCardIndex)
+        let oldCellIndex = IndexPath(item: Int(currentCardIndex), section: 0)
+        let newCellIndex = IndexPath(item: Int(newCardIndex), section: 0)
         let accumulatedSpacing = (newCardIndex-1)*CardController.horizontalInterItemSpacing - CardController.horizontalInsets/2
         let endPosition = newCardIndex*cardSize.width + accumulatedSpacing
         targetContentOffset.pointee.x = endPosition
     
         // update pageControl
-        let newPageIndex = getPageNumber(for: Int(newCardIndex), currentCardNumber: currentCardIndex)
         pageControl.set(progress: newPageIndex, animated: true)
 
-        // animate card fade-in/outslac
-        let oldCellIndex = IndexPath(item: Int(currentCardIndex), section: 0)
-        let newCellIndex = IndexPath(item: Int(newCardIndex), section: 0)
-        
         if newCellIndex != oldCellIndex {
             // fade out previous cell
+            let fadeDuration = 0.1
+            
             if let oldCell = collectionView.cellForItem(at: oldCellIndex) as? CardCell {
-                UIView.animate(withDuration: 0.5) {
+                UIView.animate(withDuration: fadeDuration) {
                     oldCell.setFaded(true)
                 }
             }
             
             // fade in new cell
             if let newCell = collectionView.cellForItem(at: newCellIndex) as? CardCell {
-                UIView.animate(withDuration: 0.5) {
+                UIView.animate(withDuration: fadeDuration) {
                     newCell.setFaded(false)
                 }
             }
