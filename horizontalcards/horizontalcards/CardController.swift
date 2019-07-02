@@ -78,6 +78,19 @@ final class CardController: UIViewController {
     }
 }
 
+extension CardController: UIScrollViewDelegate {
+    
+    // used to avoid choppy animation when weakly swiping a new card and finger is released with acceleration
+    func scrollViewDidEndDecelerating(_ scrollView: UIScrollView) {
+        let newCardIndex = (scrollView.contentOffset.x / CardCell.estimatedItemSize.width).rounded()
+        let newCellIndex = IndexPath(item: Int(newCardIndex), section: 0)
+        let accumulatedInterItemSpacing = CGFloat(newCellIndex.row) * CardController.horizontalInterItemSpacing
+        let accumulatedCardSize = CGFloat(newCellIndex.row)*CardCell.estimatedItemSize.width
+        let targetXPoint = -32 + accumulatedCardSize + accumulatedInterItemSpacing
+        scrollView.setContentOffset(CGPoint(x: targetXPoint, y: 0), animated: true)
+    }
+}
+
 extension CardController: UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
@@ -102,6 +115,7 @@ extension CardController: UICollectionViewDataSource, UICollectionViewDelegateFl
     }
     
     func scrollViewWillEndDragging(_ scrollView: UIScrollView, withVelocity velocity: CGPoint, targetContentOffset: UnsafeMutablePointer<CGPoint>) {
+        let fadeDuration = 0.1
         let pointee = targetContentOffset.pointee
         let cardSize = CardCell.estimatedItemSize
         let newCardIndex = (pointee.x / cardSize.width).rounded()
@@ -110,29 +124,26 @@ extension CardController: UICollectionViewDataSource, UICollectionViewDelegateFl
         let newCellIndex = IndexPath(item: Int(newCardIndex), section: 0)
         let accumulatedSpacing = (newCardIndex-1)*CardController.horizontalInterItemSpacing - CardController.horizontalInsets/2
         let endPosition = newCardIndex*cardSize.width + accumulatedSpacing
-        targetContentOffset.pointee.x = endPosition
-    
-        // update pageControl
-        pageControl.set(progress: newPageIndex, animated: true)
-
-        if newCellIndex != oldCellIndex {
-            // fade out previous cell
-            let fadeDuration = 0.1
-            
-            if let oldCell = collectionView.cellForItem(at: oldCellIndex) as? CardCell {
-                UIView.animate(withDuration: fadeDuration) {
-                    oldCell.setFaded(true)
-                }
-            }
-            
-            // fade in new cell
-            if let newCell = collectionView.cellForItem(at: newCellIndex) as? CardCell {
-                UIView.animate(withDuration: fadeDuration) {
-                    newCell.setFaded(false)
-                }
-            }
+        let veloIsZero = velocity.x == 0
+        
+        if newCellIndex == oldCellIndex && !veloIsZero {
+            return
         }
         
+        targetContentOffset.pointee.x = endPosition
+
+        // update pageControl
+        pageControl.set(progress: newPageIndex, animated: true)
+        
+        guard newCellIndex != oldCellIndex else { return }
+        
+        if let oldCell = collectionView.cellForItem(at: oldCellIndex) as? CardCell, let newCell = collectionView.cellForItem(at: newCellIndex) as? CardCell {
+            UIView.animate(withDuration: fadeDuration) {
+                oldCell.setFaded(true)
+                newCell.setFaded(false)
+            }
+        }
+
         currentCardIndex = Int(newCardIndex)
     }
     
