@@ -25,6 +25,7 @@ final class CardCell: UICollectionViewCell {
         super.init(frame: .zero)
         
         label.text = "test"
+        label.font = UIFont.kolibrix.header
         label.textColor = UIColor.solarstein.seashell
         
         backgroundColor = UIColor.solarstein.sapphire

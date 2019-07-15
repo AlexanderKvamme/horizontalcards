@@ -14,6 +14,11 @@
 		1C3DC91D22B3E6E100B0902A /* UIColorExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1C3DC91C22B3E6E100B0902A /* UIColorExtensions.swift */; };
 		1C3DC91F22B3E74E00B0902A /* CardController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1C3DC91E22B3E74E00B0902A /* CardController.swift */; };
 		1CB490EB22DC73AE00D16932 /* CardCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1CB490EA22DC73AE00D16932 /* CardCell.swift */; };
+		1CB490F122DC757000D16932 /* UIFontExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1CB490F022DC757000D16932 /* UIFontExtension.swift */; };
+		1CB490F222DC762700D16932 /* Sofia Pro Bold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 1CB490ED22DC74C200D16932 /* Sofia Pro Bold.ttf */; };
+		1CB490F322DC762700D16932 /* Sofia Pro Light.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 1CB490EF22DC74C300D16932 /* Sofia Pro Light.ttf */; };
+		1CB490F422DC762700D16932 /* Sofia Pro Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 1CB490EE22DC74C300D16932 /* Sofia Pro Regular.ttf */; };
+		1CB490F522DC762700D16932 /* Sofia Pro SemiBold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 1CB490EC22DC74C200D16932 /* Sofia Pro SemiBold.ttf */; };
 		C408C8E7AC3EE6F0942E5767 /* Pods_horizontalcards.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B92EA00A0FAB6E8423E7524A /* Pods_horizontalcards.framework */; };
 /* End PBXBuildFile section */
 
@@ -27,6 +32,11 @@
 		1C3DC91C22B3E6E100B0902A /* UIColorExtensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIColorExtensions.swift; sourceTree = "<group>"; };
 		1C3DC91E22B3E74E00B0902A /* CardController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CardController.swift; sourceTree = "<group>"; };
 		1CB490EA22DC73AE00D16932 /* CardCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CardCell.swift; sourceTree = "<group>"; };
+		1CB490EC22DC74C200D16932 /* Sofia Pro SemiBold.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Sofia Pro SemiBold.ttf"; sourceTree = "<group>"; };
+		1CB490ED22DC74C200D16932 /* Sofia Pro Bold.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Sofia Pro Bold.ttf"; sourceTree = "<group>"; };
+		1CB490EE22DC74C300D16932 /* Sofia Pro Regular.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Sofia Pro Regular.ttf"; sourceTree = "<group>"; };
+		1CB490EF22DC74C300D16932 /* Sofia Pro Light.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Sofia Pro Light.ttf"; sourceTree = "<group>"; };
+		1CB490F022DC757000D16932 /* UIFontExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIFontExtension.swift; sourceTree = "<group>"; };
 		960C959AD7C5913054EB6978 /* Pods-horizontalcards.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-horizontalcards.release.xcconfig"; path = "Target Support Files/Pods-horizontalcards/Pods-horizontalcards.release.xcconfig"; sourceTree = "<group>"; };
 		A67572C40423494FC2BA084B /* Pods-horizontalcards.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-horizontalcards.debug.xcconfig"; path = "Target Support Files/Pods-horizontalcards/Pods-horizontalcards.debug.xcconfig"; sourceTree = "<group>"; };
 		B92EA00A0FAB6E8423E7524A /* Pods_horizontalcards.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_horizontalcards.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -81,6 +91,11 @@
 				1C3DC91122B3E24E00B0902A /* Assets.xcassets */,
 				1C3DC91322B3E24E00B0902A /* LaunchScreen.storyboard */,
 				1C3DC91622B3E24E00B0902A /* Info.plist */,
+				1CB490F022DC757000D16932 /* UIFontExtension.swift */,
+				1CB490ED22DC74C200D16932 /* Sofia Pro Bold.ttf */,
+				1CB490EF22DC74C300D16932 /* Sofia Pro Light.ttf */,
+				1CB490EE22DC74C300D16932 /* Sofia Pro Regular.ttf */,
+				1CB490EC22DC74C200D16932 /* Sofia Pro SemiBold.ttf */,
 			);
 			path = horizontalcards;
 			sourceTree = "<group>";
@@ -156,6 +171,10 @@
 			files = (
 				1C3DC91522B3E24E00B0902A /* LaunchScreen.storyboard in Resources */,
 				1C3DC91222B3E24E00B0902A /* Assets.xcassets in Resources */,
+				1CB490F322DC762700D16932 /* Sofia Pro Light.ttf in Resources */,
+				1CB490F222DC762700D16932 /* Sofia Pro Bold.ttf in Resources */,
+				1CB490F522DC762700D16932 /* Sofia Pro SemiBold.ttf in Resources */,
+				1CB490F422DC762700D16932 /* Sofia Pro Regular.ttf in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -212,6 +231,7 @@
 				1C3DC91D22B3E6E100B0902A /* UIColorExtensions.swift in Sources */,
 				1C3DC91F22B3E74E00B0902A /* CardController.swift in Sources */,
 				1C3DC90D22B3E24800B0902A /* ViewController.swift in Sources */,
+				1CB490F122DC757000D16932 /* UIFontExtension.swift in Sources */,
 				1C3DC90B22B3E24800B0902A /* AppDelegate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
