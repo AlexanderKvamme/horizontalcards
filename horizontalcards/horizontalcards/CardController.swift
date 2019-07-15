@@ -17,7 +17,7 @@ final class CardController: UIViewController {
     static var horizontalInsets: CGFloat = 32
     static var horizontalInterItemSpacing: CGFloat = 16
 
-    private var data = ["card 0", "card 1", "card 2", "card 3", "card 4", "card 5", "card 6", "card 7", "card 8", "card 9"]
+    private var data = ["Barnehagesstylist Jan Thomas, Parkveien 0", "Barnehagesstylist Jan Thomas, Parkveien 1", "Barnehagesstylist Jan Thomas, Parkveien 2", "card 3", "card 4", "card 5", "card 6", "card 7", "card 8", "card 9"]
     private var collectionView: UICollectionView!
     private let layout = UICollectionViewFlowLayout()
     private let pageControl = CHIPageControlAleppo(frame: CGRect(x: 0, y: 0, width: 100, height: 20))

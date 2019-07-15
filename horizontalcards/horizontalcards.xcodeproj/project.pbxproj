@@ -19,6 +19,7 @@
 		1CB490F322DC762700D16932 /* Sofia Pro Light.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 1CB490EF22DC74C300D16932 /* Sofia Pro Light.ttf */; };
 		1CB490F422DC762700D16932 /* Sofia Pro Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 1CB490EE22DC74C300D16932 /* Sofia Pro Regular.ttf */; };
 		1CB490F522DC762700D16932 /* Sofia Pro SemiBold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 1CB490EC22DC74C200D16932 /* Sofia Pro SemiBold.ttf */; };
+		1CB490F722DC77C100D16932 /* RobotoMono-Bold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 1CB490F622DC77C100D16932 /* RobotoMono-Bold.ttf */; };
 		C408C8E7AC3EE6F0942E5767 /* Pods_horizontalcards.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B92EA00A0FAB6E8423E7524A /* Pods_horizontalcards.framework */; };
 /* End PBXBuildFile section */
 
@@ -37,6 +38,7 @@
 		1CB490EE22DC74C300D16932 /* Sofia Pro Regular.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Sofia Pro Regular.ttf"; sourceTree = "<group>"; };
 		1CB490EF22DC74C300D16932 /* Sofia Pro Light.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Sofia Pro Light.ttf"; sourceTree = "<group>"; };
 		1CB490F022DC757000D16932 /* UIFontExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIFontExtension.swift; sourceTree = "<group>"; };
+		1CB490F622DC77C100D16932 /* RobotoMono-Bold.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "RobotoMono-Bold.ttf"; sourceTree = "<group>"; };
 		960C959AD7C5913054EB6978 /* Pods-horizontalcards.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-horizontalcards.release.xcconfig"; path = "Target Support Files/Pods-horizontalcards/Pods-horizontalcards.release.xcconfig"; sourceTree = "<group>"; };
 		A67572C40423494FC2BA084B /* Pods-horizontalcards.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-horizontalcards.debug.xcconfig"; path = "Target Support Files/Pods-horizontalcards/Pods-horizontalcards.debug.xcconfig"; sourceTree = "<group>"; };
 		B92EA00A0FAB6E8423E7524A /* Pods_horizontalcards.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_horizontalcards.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -96,6 +98,7 @@
 				1CB490EF22DC74C300D16932 /* Sofia Pro Light.ttf */,
 				1CB490EE22DC74C300D16932 /* Sofia Pro Regular.ttf */,
 				1CB490EC22DC74C200D16932 /* Sofia Pro SemiBold.ttf */,
+				1CB490F622DC77C100D16932 /* RobotoMono-Bold.ttf */,
 			);
 			path = horizontalcards;
 			sourceTree = "<group>";
@@ -174,6 +177,7 @@
 				1CB490F322DC762700D16932 /* Sofia Pro Light.ttf in Resources */,
 				1CB490F222DC762700D16932 /* Sofia Pro Bold.ttf in Resources */,
 				1CB490F522DC762700D16932 /* Sofia Pro SemiBold.ttf in Resources */,
+				1CB490F722DC77C100D16932 /* RobotoMono-Bold.ttf in Resources */,
 				1CB490F422DC762700D16932 /* Sofia Pro Regular.ttf in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
