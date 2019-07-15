@@ -10,20 +10,47 @@ import UIKit
 import SnapKit
 
 
+final class ContactShadowView: UIView {
+    
+    // MARK: - Initializers
+    
+    override init(frame: CGRect) {
+        super.init(frame: frame)
+    }
+    
+    required init?(coder aDecoder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+    
+    // MARK: - Methods
+    
+    func addShadow() {
+        let contactRect = CGRect(x: 50, y: 0, width: frame.width-50, height: frame.height)
+        layer.shadowPath = UIBezierPath(rect: contactRect).cgPath
+        layer.shadowRadius = 30
+        layer.shadowColor = UIColor.darkGray.cgColor
+        layer.shadowColor = UIColor.solarstein.sapphire.cgColor
+        layer.shadowOpacity = 0.3
+    }
+}
+
+
 class ViewController: UIViewController {
 
     // MARK: - Properties
 
     private let cardController = CardController()
+    private let cardShadowView = ContactShadowView(frame: CGRect(x: 0, y: 0, width: CardCell.estimatedItemSize.width, height: CardCell.estimatedItemSize.height))
     
     // MARK: - Initializers
     
     init() {
         super.init(nibName: nil, bundle: nil)
         
-        view.backgroundColor = UIColor.solarstein.seashell
-        
         addSubviewsAndConstraints()
+        
+        view.backgroundColor = UIColor.solarstein.seashell
+        cardShadowView.addShadow()
     }
     
     required init?(coder aDecoder: NSCoder) {
@@ -40,6 +67,17 @@ class ViewController: UIViewController {
             make.left.right.equalToSuperview()
             make.height.equalTo(CardCell.estimatedItemSize)
         }
+
+        view.addSubview(cardShadowView)
+        cardShadowView.snp.makeConstraints { (make) in
+            make.centerX.equalTo(cardController.view)
+            make.left.equalTo(cardController.view.snp.left).offset(10)
+            make.right.equalTo(cardController.view.snp.right).offset(-10)
+            make.top.equalTo(cardController.view.snp.top).offset(30)
+            make.height.equalTo(6)
+        }
+        
+        view.sendSubviewToBack(cardShadowView)
     }
 }
 
