@@ -146,17 +146,19 @@ extension CardController: UICollectionViewDataSource, UICollectionViewDelegateFl
         
         guard newCellIndex != oldCellIndex else { return }
         
-        if let oldCell = collectionView.cellForItem(at: oldCellIndex) as? CardCell {
-            oldCell.setFaded(true)
-        } else {
-            print("could not get cellForItem for oldCellIndex: \(oldCellIndex.row)")
-        }
-        
-        // fade in new cell
-        if let newCell = collectionView.cellForItem(at: newCellIndex) as? CardCell {
-            newCell.setFaded(false)
-        } else {
-            print("could not get cellForItem for newCellIndex: \(newCellIndex!.row). Cell is probably out of visible area")
+        UIView.animate(withDuration: 0.2) {
+            if let oldCell = self.collectionView.cellForItem(at: oldCellIndex) as? CardCell {
+                oldCell.setFaded(true)
+            } else {
+                print("could not get cellForItem for oldCellIndex: \(oldCellIndex.row)")
+            }
+            
+            // fade in new cell
+            if let newCell = self.collectionView.cellForItem(at: newCellIndex) as? CardCell {
+                newCell.setFaded(false)
+            } else {
+                print("could not get cellForItem for newCellIndex: \(newCellIndex!.row). Cell is probably out of visible area")
+            }
         }
 
         currentCardIndex = Int(newCardIndex)
