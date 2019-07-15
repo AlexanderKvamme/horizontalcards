@@ -24,7 +24,9 @@ final class ContactShadowView: UIView {
     
     // MARK: - Methods
     
-    func addShadow() {
+    func addShadow(ofSize size: CGSize) {
+        frame = CGRect(x: 0, y: 0, width: size.width, height: size.height)
+        
         let contactRect = CGRect(x: 50, y: 0, width: frame.width-50, height: frame.height)
         layer.shadowPath = UIBezierPath(rect: contactRect).cgPath
         layer.shadowRadius = 30
@@ -40,7 +42,7 @@ class ViewController: UIViewController {
     // MARK: - Properties
 
     private let cardController = CardController()
-    private let cardShadowView = ContactShadowView(frame: CGRect(x: 0, y: 0, width: CardCell.estimatedItemSize.width, height: CardCell.estimatedItemSize.height))
+    private let cardShadowView = ContactShadowView()
     
     // MARK: - Initializers
     
@@ -50,7 +52,7 @@ class ViewController: UIViewController {
         addSubviewsAndConstraints()
         
         view.backgroundColor = UIColor.solarstein.seashell
-        cardShadowView.addShadow()
+        cardShadowView.addShadow(ofSize: CardCell.estimatedItemSize)
     }
     
     required init?(coder aDecoder: NSCoder) {
