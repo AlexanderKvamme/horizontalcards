@@ -21,6 +21,7 @@
 		1CB490F522DC762700D16932 /* Sofia Pro SemiBold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 1CB490EC22DC74C200D16932 /* Sofia Pro SemiBold.ttf */; };
 		1CB490F722DC77C100D16932 /* RobotoMono-Bold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 1CB490F622DC77C100D16932 /* RobotoMono-Bold.ttf */; };
 		1CB490F922DC7DAE00D16932 /* DateView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1CB490F822DC7DAE00D16932 /* DateView.swift */; };
+		1CB490FB22DC933000D16932 /* CardStatusIndicator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1CB490FA22DC933000D16932 /* CardStatusIndicator.swift */; };
 		C408C8E7AC3EE6F0942E5767 /* Pods_horizontalcards.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B92EA00A0FAB6E8423E7524A /* Pods_horizontalcards.framework */; };
 /* End PBXBuildFile section */
 
@@ -41,6 +42,7 @@
 		1CB490F022DC757000D16932 /* UIFontExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIFontExtension.swift; sourceTree = "<group>"; };
 		1CB490F622DC77C100D16932 /* RobotoMono-Bold.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "RobotoMono-Bold.ttf"; sourceTree = "<group>"; };
 		1CB490F822DC7DAE00D16932 /* DateView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DateView.swift; sourceTree = "<group>"; };
+		1CB490FA22DC933000D16932 /* CardStatusIndicator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CardStatusIndicator.swift; sourceTree = "<group>"; };
 		960C959AD7C5913054EB6978 /* Pods-horizontalcards.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-horizontalcards.release.xcconfig"; path = "Target Support Files/Pods-horizontalcards/Pods-horizontalcards.release.xcconfig"; sourceTree = "<group>"; };
 		A67572C40423494FC2BA084B /* Pods-horizontalcards.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-horizontalcards.debug.xcconfig"; path = "Target Support Files/Pods-horizontalcards/Pods-horizontalcards.debug.xcconfig"; sourceTree = "<group>"; };
 		B92EA00A0FAB6E8423E7524A /* Pods_horizontalcards.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_horizontalcards.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -89,6 +91,7 @@
 			children = (
 				1C3DC90A22B3E24800B0902A /* AppDelegate.swift */,
 				1C3DC90C22B3E24800B0902A /* ViewController.swift */,
+				1CB490FA22DC933000D16932 /* CardStatusIndicator.swift */,
 				1C3DC91E22B3E74E00B0902A /* CardController.swift */,
 				1CB490EA22DC73AE00D16932 /* CardCell.swift */,
 				1CB490F822DC7DAE00D16932 /* DateView.swift */,
@@ -241,6 +244,7 @@
 				1C3DC90D22B3E24800B0902A /* ViewController.swift in Sources */,
 				1CB490F122DC757000D16932 /* UIFontExtension.swift in Sources */,
 				1C3DC90B22B3E24800B0902A /* AppDelegate.swift in Sources */,
+				1CB490FB22DC933000D16932 /* CardStatusIndicator.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

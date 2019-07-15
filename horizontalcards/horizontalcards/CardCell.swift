@@ -15,13 +15,14 @@ final class CardCell: UICollectionViewCell {
     // MARK: - Properties
     
     static let identifier = "Card cell"
-    static let estimatedItemSize = CGSize(width: UIScreen.main.bounds.width-CardController.horizontalInsets*2, height: 150)
+    static let estimatedItemSize = CGSize(width: UIScreen.main.bounds.width-CardController.horizontalInsets*2, height: 160)
     
     private let headerLabel = UILabel()
     private let valueLabel = UILabel()
     private let mvaLabel = UILabel()
     private let accountLabel = UILabel()
     private let dateView = DateView(day: 1, month: .September)
+    private let statusIndicator = CardStatusIndicator()
     
     // MARK: - Initializers
     
@@ -75,6 +76,14 @@ final class CardCell: UICollectionViewCell {
             make.right.equalToSuperview().offset(-16)
             make.top.equalTo(mvaLabel.snp.top)
             make.height.width.equalTo(50)
+        }
+        
+        contentView.addSubview(statusIndicator)
+        statusIndicator.snp.makeConstraints { (make) in
+            make.right.equalToSuperview().offset(-24)
+            make.bottom.equalToSuperview().offset(-16)
+            make.height.equalTo(8)
+            make.width.equalTo(36)
         }
         
         contentView.snp.makeConstraints { (make) in

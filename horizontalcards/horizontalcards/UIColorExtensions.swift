@@ -25,6 +25,7 @@ extension UIColor {
         static let mediumSeaGreen = UIColor.hex("2FBF71")
         
         // other
+        static let warningColor = UIColor.hex("FFBF2F")
         static let errorColor = UIColor.hex("d6292b")
     }
     
