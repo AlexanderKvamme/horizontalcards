@@ -21,6 +21,7 @@ final class CardCell: UICollectionViewCell {
     private let valueLabel = UILabel()
     private let mvaLabel = UILabel()
     private let accountLabel = UILabel()
+    private let dateView = DateView(day: 1, month: .September)
     
     // MARK: - Initializers
     
@@ -67,6 +68,13 @@ final class CardCell: UICollectionViewCell {
         valueLabel.snp.makeConstraints { (make) in
             make.top.equalTo(accountLabel.snp.bottom).offset(16)
             make.left.equalToSuperview().offset(16)
+        }
+        
+        contentView.addSubview(dateView)
+        dateView.snp.makeConstraints { (make) in
+            make.right.equalToSuperview().offset(-16)
+            make.top.equalTo(mvaLabel.snp.top)
+            make.height.width.equalTo(50)
         }
         
         contentView.snp.makeConstraints { (make) in
