@@ -110,18 +110,27 @@ extension CardController: UICollectionViewDataSource, UICollectionViewDelegateFl
         if indexPath.row == 0 {
             cell.setFaded(false)
         }
-        
+    
         return cell
     }
     
     func scrollViewWillEndDragging(_ scrollView: UIScrollView, withVelocity velocity: CGPoint, targetContentOffset: UnsafeMutablePointer<CGPoint>) {
-        let fadeDuration = 0.1
         let pointee = targetContentOffset.pointee
         let cardSize = CardCell.estimatedItemSize
         let newCardIndex = (pointee.x / cardSize.width).rounded()
         let newPageIndex = getPageNumber(for: Int(newCardIndex), currentCardNumber: currentCardIndex)
-        let oldCellIndex = IndexPath(item: Int(currentCardIndex), section: 0)
-        let newCellIndex = IndexPath(item: Int(newCardIndex), section: 0)
+        
+        var oldCellIndex: IndexPath!
+        var newCellIndex: IndexPath!
+        
+        if abs(newCardIndex - CGFloat(currentCardIndex)) < 2 {
+            oldCellIndex = IndexPath(item: Int(currentCardIndex), section: 0)
+            newCellIndex = IndexPath(item: Int(newCardIndex), section: 0)
+        } else {
+            oldCellIndex = IndexPath(item: Int(currentCardIndex), section: 0)
+            newCellIndex = IndexPath(item: Int(newCardIndex), section: 0)
+        }
+        
         let accumulatedSpacing = (newCardIndex-1)*CardController.horizontalInterItemSpacing - CardController.horizontalInsets/2
         let endPosition = newCardIndex*cardSize.width + accumulatedSpacing
         let veloIsZero = velocity.x == 0
@@ -137,11 +146,17 @@ extension CardController: UICollectionViewDataSource, UICollectionViewDelegateFl
         
         guard newCellIndex != oldCellIndex else { return }
         
-        if let oldCell = collectionView.cellForItem(at: oldCellIndex) as? CardCell, let newCell = collectionView.cellForItem(at: newCellIndex) as? CardCell {
-            UIView.animate(withDuration: fadeDuration) {
-                oldCell.setFaded(true)
-                newCell.setFaded(false)
-            }
+        if let oldCell = collectionView.cellForItem(at: oldCellIndex) as? CardCell {
+            oldCell.setFaded(true)
+        } else {
+            print("could not get cellForItem for oldCellIndex: \(oldCellIndex.row)")
+        }
+        
+        // fade in new cell
+        if let newCell = collectionView.cellForItem(at: newCellIndex) as? CardCell {
+            newCell.setFaded(false)
+        } else {
+            print("could not get cellForItem for newCellIndex: \(newCellIndex!.row). Cell is probably out of visible area")
         }
 
         currentCardIndex = Int(newCardIndex)
